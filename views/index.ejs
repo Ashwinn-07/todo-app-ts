@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .task {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #eee;
+      }
+      .task.completed {
+        background-color: #f8f8f8;
+        text-decoration: line-through;
+      }
+      .task-form {
+        margin-bottom: 20px;
+      }
+      .task-form input,
+      .task-form select {
+        padding: 5px;
+        margin-right: 10px;
+      }
+      .task-form button {
+        padding: 5px 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .toggle-btn {
+        padding: 5px 10px;
+        margin-left: 10px;
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .delete-btn {
+        padding: 5px 10px;
+        margin-left: 10px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Todo List</h1>
+
+    <form class="task-form" action="/addTask" method="POST">
+      <input type="text" name="title" placeholder="Enter task" required />
+      <select name="priority">
+        <option value="">Regular Task</option>
+        <option value="Low">Low Priority</option>
+        <option value="Medium">Medium Priority</option>
+        <option value="High">High Priority</option>
+      </select>
+      <button type="submit">Add Task</button>
+    </form>
+
+    <div class="tasks">
+      <% tasks.forEach(task => { %>
+      <div class="task <%= task.completed ? 'completed' : '' %>">
+        <span><%= task.title %> - <%= task.status %></span>
+        <form
+          action="/toggle/<%= task.id %>"
+          method="POST"
+          style="display: inline"
+        >
+          <button class="toggle-btn" type="submit">
+            <%= task.completed ? 'Undo' : 'Complete' %>
+          </button>
+        </form>
+        <form
+          action="/delete/<%= task.id %>"
+          method="POST"
+          style="display: inline"
+        >
+          <button
+            class="delete-btn"
+            type="submit"
+            style="background-color: #f44336"
+          >
+            Delete
+          </button>
+        </form>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>
